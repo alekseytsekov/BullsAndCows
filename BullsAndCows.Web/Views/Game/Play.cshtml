@@ -1,0 +1,145 @@
+﻿@model BullsAndCows.Models.Dto.Game.GameWrapper
+
+@{
+    ViewBag.Title = "Play";
+}
+
+<h2>Play</h2>
+
+<div class="row">
+
+    <div class="col-xs-8 col-sm-offset-2 text-center">
+
+        <div class="row">
+
+            <div class="col-xs-8 col-sm-offset-2">
+
+                <div class="row">
+
+                    <label for="">Guess</label>
+                    <input id="guess" name="guess" class="form-control inline-block" />
+                    <input type="button" id="process-guess" value="Guess" class="btn btn-default inline-block" />
+
+                </div>
+
+            </div>
+
+            <div class="col-xs-6 user-guess-wrapper">
+                <h2>User guesses </h2>
+                <h3>User guessed number: @Model.Game.UserGuessedNumber</h3>
+
+                @foreach (var turn in Model.Game.GameTurns)
+                {
+                    <p>
+                        @turn.UserGuess - <i>@turn.CommentOnUserGuess</i>
+                    </p>
+                }
+
+            </div>
+
+            <div class="col-xs-6 ai-guess-wrapper">
+                <h2>AI guesses</h2>
+                <h3>AI guessed number: XXXX</h3>
+
+                @foreach (var turn in Model.Game.GameTurns)
+                {
+                    <p>
+                        @turn.AIGuess - <i>@turn.CommentOnAIGuess</i>
+                    </p>
+                }
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+</div>
+
+<script>
+
+    window.addEventListener('load', function () {
+
+        let gameId = '@Model.Game.Id';
+        let url = '@Url.Action("ProcessTurn", "Game")';
+
+
+
+        $('#process-guess').click(sendGuess);
+
+        function sendGuess() {
+            let userGuess = $('#guess').val();
+
+            if (userGuess.length != 4) {
+                alert('invalid input!');
+                $('#guess').val('');
+                return;
+            }
+
+            let opts = {
+                url: url,
+                method: 'POST',
+                dataType: "json",
+                contentType: "application/json",
+                data: JSON.stringify({ userGuess, gameId}),
+                success: onSuccess,
+                error : onError
+            }
+
+            $.ajax(opts);
+        }
+
+        function onSuccess(response) {
+
+            console.log(response);
+            
+            $('#guess').val('');
+
+            if (response.Error) {
+                alert('Error!');
+                return;
+            }
+
+            $('.user-guess-wrapper').append(`<p>${response.UserGuess} - <i>${response.CommentOnUserGuess}</i></p>`);
+
+            setTimeout(function() {
+                $('.ai-guess-wrapper').append(`<p>${response.AiGuess} - <i>${response.CommentOnAiGuess}</i></p>`);
+
+                if (response.HasWinner) {
+                    if (response.IsUserWinner) {
+                        alert('You win!');
+                    } else {
+                        alert('You lose!');
+                    }
+
+                    $('#process-guess').remove();
+                }
+                },
+                getRandomIntInclusive());
+
+
+        }
+
+        function onError(err) {
+
+            console.log('error');
+
+            alert('Something went wrong!');
+            console.log(err);
+        }
+
+        function getRandomIntInclusive() {
+
+            let min = 1;
+            let max = 3;
+
+            min = Math.ceil(min);
+            max = Math.floor(max);
+            return Math.floor(Math.random() * (max - min + 1)) + min; //The maximum is inclusive and the minimum is inclusive
+        }
+    })
+
+</script>
+

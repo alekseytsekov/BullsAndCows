@@ -1,0 +1,63 @@
+﻿@using BullsAndCows.Globals
+
+<style>
+    .bg-c-error {
+        background-color: red;
+        color: white;
+    }
+
+    .bg-c-warning {
+        background-color: #ffd11a;
+    }
+
+    .bg-c-success {
+        background-color: #66ff99;
+    }
+
+    .msg-system {
+        font-size: 3rem;
+    }
+</style>
+
+
+@if (this.TempData.ContainsKey(TDKey.SuccessMsg) && this.TempData[TDKey.SuccessMsg] != null)
+{
+
+    <div class="bg-c-success text-right msg-system">
+        <p>@this.TempData[TDKey.SuccessMsg]</p>
+    </div>
+    this.TempData[TDKey.SuccessMsg] = null;
+}
+else if (this.TempData.ContainsKey(TDKey.InfoMsg) && this.TempData[TDKey.InfoMsg] != null)
+{
+    <div class="bg-info text-right msg-system">
+        <p>@this.TempData[TDKey.InfoMsg]</p>
+    </div>
+    this.TempData[TDKey.InfoMsg] = null;
+}
+else if (this.TempData.ContainsKey(TDKey.WarningMsg) && this.TempData[TDKey.WarningMsg] != null)
+{
+    <div class="bg-c-warning text-right msg-system">
+        <p>@this.TempData[TDKey.WarningMsg]</p>
+    </div>
+    this.TempData[TDKey.WarningMsg] = null;
+}
+else if (this.TempData.ContainsKey(TDKey.ErrorMsg) && this.TempData[TDKey.ErrorMsg] != null)
+{
+    <div class="bg-c-error text-right msg-system">
+        <p>@this.TempData[TDKey.ErrorMsg]</p>
+    </div>
+    this.TempData[TDKey.ErrorMsg] = null;
+}
+
+<script>
+    window.addEventListener('load', onMsgTemplateLoad);
+
+    function onMsgTemplateLoad() {
+        $('.msg-system').click(onMessageClick);
+
+        function onMessageClick() {
+            $(this).hide();
+        }
+    }
+</script>

@@ -1,0 +1,35 @@
+﻿@using BullsAndCows.Web.Controllers
+
+@model BullsAndCows.Models.Dto.Game.GameWrapper
+
+@{
+    ViewBag.Title = "New Game";
+}
+
+<h2>New Game</h2>
+
+<div class="row ">
+
+    <div class="col-xs-8 col-sm-offset-2">
+
+
+        @using (Html.BeginForm(nameof(GameController.NewGame).RemoveControllerSuffix(), nameof(GameController).RemoveControllerSuffix(), FormMethod.Post))
+            {
+            @Html.AntiForgeryToken()
+            
+                <div class="form-group">
+                    @Html.LabelFor(x => x.Game.UserGuessedNumber)
+                    @Html.TextBoxFor(x => x.Game.UserGuessedNumber, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(x => x.Game.UserGuessedNumber)
+                </div>
+
+
+                <input type="submit" class="btn btn-default" value="Start" />
+        }
+
+    </div>
+
+</div>
+
+
+

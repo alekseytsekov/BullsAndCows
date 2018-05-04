@@ -1,0 +1,58 @@
+﻿
+@model BullsAndCows.Models.Dto.Game.GameWrapper
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div class="row">
+
+    <div class="col-xs-8 col-sm-offset-2 text-center">
+
+        <div class="row">
+
+            <div class="col-xs-8 col-sm-offset-2">
+
+                <div class="row">
+
+                    <label for="">Chosen Number</label>
+                    <input id="guess" name="guess" class="form-control inline-block" value="@Model.Game.UserGuessedNumber" readonly="readonly"/>
+
+                </div>
+
+            </div>
+
+            <div class="col-xs-6 user-guess-wrapper">
+                <h2>User guesses </h2>
+
+                @foreach (var turn in Model.Game.GameTurns)
+                {
+                    <p>
+                        @turn.UserGuess - <i>@turn.CommentOnUserGuess</i>
+                    </p>
+                }
+
+            </div>
+
+            <div class="col-xs-6 ai-guess-wrapper">
+                <h2>AI guesses</h2>
+
+                @foreach (var turn in Model.Game.GameTurns)
+                {
+                    <p>
+                        @turn.AIGuess - <i>@turn.CommentOnAIGuess</i>
+                    </p>
+                }
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+</div>
+

@@ -1,0 +1,31 @@
+﻿@using System.Web.Mvc.Html
+
+@using BullsAndCows.Web.Controllers
+
+<div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            @Html.ActionLink("Bulls and Cows", nameof(HomeController.Index).RemoveControllerSuffix(), nameof(HomeController).RemoveControllerSuffix(), new { area = "" }, new { @class = "navbar-brand" })
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li>@Html.ActionLink("Top Ranking", nameof(RankingController.TopRankings).RemoveControllerSuffix(), nameof(RankingController).RemoveControllerSuffix())</li>
+                
+                @if (Request.IsAuthenticated)
+                {
+                    <li>@Html.ActionLink("New Game", nameof(GameController.NewGame).RemoveControllerSuffix(), nameof(GameController).RemoveControllerSuffix())</li>
+                    <li>@Html.ActionLink("Personal Ranking", nameof(RankingController.PersonalRankings).RemoveControllerSuffix(), nameof(RankingController).RemoveControllerSuffix())</li>
+                    <li>@Html.ActionLink("History", nameof(GameController.GameHistory).RemoveControllerSuffix(), nameof(GameController).RemoveControllerSuffix())</li>
+                    
+                }
+            </ul>
+            
+            @Html.Partial("_LoginPartial")
+        </div>
+    </div>
+</div>

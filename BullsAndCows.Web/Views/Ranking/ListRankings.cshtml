@@ -1,0 +1,54 @@
+﻿@using BullsAndCows.Models.Dto.Game
+@model BullsAndCows.Models.Dto.Game.RankingWrapper
+
+@{
+    ViewBag.Title = "List Rankings";
+    int index = 1;
+
+}
+
+@if (Model.IsTopRankings)
+{
+    <h2>List TOP Rankings</h2>
+}
+else
+{
+    <h2>List Rankings</h2>
+}
+
+<div class="row">
+    
+    @if (!Model.Rankings.Any())
+    {
+        <div class="col-xs-12">There is no record!</div>
+    }
+    else
+    {
+        <table class="table table-bordered table-hover table-striped">
+            <tr>
+                <th></th>
+                <th>@Html.DisplayNameFor(x => x.Rankings.FirstOrDefault().Username)</th>
+                <th>@Html.DisplayNameFor(  x => x.Rankings[0].PlayTime)</th>
+                <th>@Html.DisplayNameFor(x => x.Rankings[0].NumberOfTurns)</th>
+                <th>@Html.DisplayNameFor(x => x.Rankings[0].StartAt)</th>
+                <th>@Html.DisplayNameFor(x => x.Rankings[0].EndAt)</th>
+            </tr>
+        
+            @foreach (var ranking in Model.Rankings)
+            {
+                <tr>
+                    <td>@(index++)</td>
+                    <td>@ranking.Username</td>
+                    <td>@ranking.PlayTime</td>
+                    <td>@ranking.NumberOfTurns</td>
+                    <td>@ranking.StartAt</td>
+                    <td>@ranking.EndAt</td>
+                </tr>
+            }
+
+        </table>
+    }
+
+
+</div>
+

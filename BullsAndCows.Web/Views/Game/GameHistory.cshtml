@@ -1,0 +1,56 @@
+﻿
+@using BullsAndCows.Web.Controllers
+@model BullsAndCows.Models.Dto.Game.GameWrapper
+
+@{
+    ViewBag.Title = "Game History";
+}
+
+<h2>Game History</h2>
+
+<div class="row">
+
+    @if (!Model.Games.Any())
+    {
+        <div class="col-xs-12">There are no games!</div>
+    }
+    else
+    {
+        <table class="table table-bordered table-hover table-striped">
+            <tr>
+                <th>Chosen Number</th>
+                <th>@Html.DisplayNameFor(x => x.Games[0].StartAt)</th>
+                <th>@Html.DisplayNameFor(x => x.Games[0].EndAt)</th>
+                <th>Played Turns</th>
+                <th></th>
+            </tr>
+
+            @foreach (var game in Model.Games)
+            {
+                <tr>
+                    <td>@game.UserGuessedNumber</td>
+                    <td>@game.StartAt</td>
+                    <td>
+                        @if (game.EndAt.HasValue)
+                        {
+                            @game.EndAt.Value
+                        }
+                    </td>
+                    <td>@game.GameTurns.Count</td>
+                    <td>
+                        @Html.ActionLink("Details", nameof(GameController.Details).RemoveControllerSuffix(), new { gameId = game.Id })
+                        @if (!game.EndAt.HasValue)
+                        {
+                            <span>&ensp;|&ensp;</span>@Html.ActionLink("Resume game", nameof(GameController.Play).RemoveControllerSuffix(), new { gameId = game.Id})
+                        }
+                    </td>
+                </tr>
+            }
+
+        </table>
+    }
+
+
+</div>
+
+
